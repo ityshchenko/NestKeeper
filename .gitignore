@@ -221,3 +221,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- NestKeeper ---
+# Rendered from wrangler.toml.tmpl
+wrangler.toml
+.wrangler/
+.dev.vars
+python_modules/
+node_modules/
+# OpenTofu
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.venv-workers/

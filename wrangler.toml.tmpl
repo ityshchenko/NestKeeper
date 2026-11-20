@@ -1,0 +1,31 @@
+# Rendered to wrangler.toml by scripts/render_wrangler.py (CI and local dev).
+# Do not commit the rendered file.
+name = "${WORKER_NAME}"
+main = "src/worker.py"
+# The compatibility date selects the Workers Python version: >= 2026-09-08 → Python 3.14
+# (keep in sync with requires-python / .python-version; tests/test_render_wrangler.py checks it).
+compatibility_date = "2026-11-01"
+compatibility_flags = ["python_workers"]
+
+# JSON logs written by structlog are collected by Workers Logs.
+[observability]
+enabled = true
+
+# Verification sync + pending-prompt cleanup.
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "${D1_DATABASE_NAME}"
+database_id = "${D1_DATABASE_ID}"
+migrations_dir = "migrations"
+
+# Non-secret configuration. Secrets (BOT_TOKEN, WEBHOOK_SECRET, CF_API_TOKEN, ADMIN_TOKEN)
+# are uploaded with `wrangler secret bulk` (production) or read from .dev.vars (local).
+[vars]
+BOT_USERNAME = "${BOT_USERNAME}"
+MAIL_LIST = "${MAIL_LIST}"
+ALLOWED_CHAT_IDS = "${ALLOWED_CHAT_IDS}"
+CF_ACCOUNT_ID = "${CLOUDFLARE_ACCOUNT_ID}"
+RESTRICT_SENDERS = "${RESTRICT_SENDERS}"
